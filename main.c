@@ -17,6 +17,7 @@ static void delete_files(list_t *files)
     while (files != NULL) {
         next = files->next;
         file = (file_t*) files->data;
+        free(file->name);
         free(file->statbuf);
         free(file);
         free(files);

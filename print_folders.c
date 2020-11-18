@@ -18,7 +18,7 @@ static void print_folder_complete(folder_t *folder)
 
     for (int i = 0; files != NULL; i++) {
         file = (file_t*) files->data;
-        my_putstr(file->file->d_name);
+        my_putstr(file->name);
         files = files->next;
     }
 }
@@ -32,7 +32,7 @@ static void print_folder_simple(folder_t *folder)
         file = (file_t*) files->data;
         if (i > 0)
             my_putstr("  ");
-        my_putstr(file->file->d_name);
+        my_putstr(file->name);
         files = files->next;
     }
 }
@@ -55,7 +55,7 @@ void print_folders(list_t *folders, int n_folders, int flags)
         (*print_folder)(folder);
         my_putchar('\n');
     } else {
-        for (int i = 0; folders != NULL; i++) {
+        for (int i = 0; folders != NULL; i++, folders = folders->next) {
             folder = (folder_t*) folders->data;
             my_putstr(folder->path);
             my_putstr(":\n");
@@ -63,7 +63,6 @@ void print_folders(list_t *folders, int n_folders, int flags)
             my_putchar('\n');
             if (i < n_folders - 1)
                 my_putchar('\n');
-            folders = folders->next;
         }
     }
 }

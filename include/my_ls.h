@@ -21,7 +21,8 @@
 #define FLAG_TIME 32
 
 typedef struct {
-    struct dirent *file;
+    char *name;
+    unsigned char type;
     struct stat *statbuf;
 } file_t;
 
