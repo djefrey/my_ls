@@ -15,7 +15,7 @@ void my_strinsert(char **str, char *insertion, int pos)
     char *newstr;
 
     if (pos > len + 1)
-        return (NULL);
+        return;
     newstr = malloc(sizeof(char) * (len + insert_len + 1));
     my_strncpy(newstr, *str, pos);
     my_strcat(newstr, insertion);

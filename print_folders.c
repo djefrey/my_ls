@@ -7,6 +7,7 @@
 
 #include <stdlib.h>
 #include <dirent.h>
+#include "my.h"
 #include "my_ls.h"
 #include "my_list.h"
 
