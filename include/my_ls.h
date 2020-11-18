@@ -34,6 +34,7 @@ typedef void (*print_folder_t)(list_t *files);
 
 int get_flags(int ac, char *av[]);
 int read_folders(int ac, char *av[], list_t **folders, int flags);
+int read_folder_content(char *path, list_t **folders, int flags);
 void print_folders(list_t *folders, int n_folders, int flags);
 
 #endif /* !MY_LS_H_ */

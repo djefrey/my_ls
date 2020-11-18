@@ -9,6 +9,7 @@
 #include <sys/stat.h>
 #include <dirent.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "my.h"
 #include "my_list.h"
 #include "my_ls.h"
@@ -40,7 +41,7 @@ static void add_folder_to_list(char *path, list_t *files, list_t **folders)
     create_list(folders, folder);
 }
 
-static int read_content(char *path, list_t **folders, int flags)
+int read_folder_content(char *path, list_t **folders, int flags)
 {
     int n_folders = 1;
     DIR *dir = opendir(path);
@@ -55,7 +56,7 @@ static int read_content(char *path, list_t **folders, int flags)
             filepath = my_strmerge(path, fileinfo->d_name);
             my_strinsert(&filepath, "/", my_strlen(path));
             if (flags & FLAG_RECURSIVE && fileinfo->d_type == DT_DIR)
-                n_folders += read_content(filepath, folders, flags);
+                n_folders += read_folder_content(filepath, folders, flags);
             add_file_to_list(filepath, fileinfo, &files);
             free(filepath);
         }
@@ -76,7 +77,7 @@ int read_folders(int ac, char *av[], list_t **folders, int flags)
             len = my_strlen(av[i]);
             if (av[i][len - 1] == '/')
                 av[i][len - 1] = 0;
-            n_folders += read_content(av[i], folders, flags);
+            n_folders += read_folder_content(av[i], folders, flags);
         }
     }
     return (n_folders);
