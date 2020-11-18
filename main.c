@@ -46,22 +46,7 @@ int main(int ac, char *av[])
     list_t *folders = NULL;
     int n_folders = read_folders(ac, av, &folders, flags);
 
-    list_t *folders_cpy = folders;
-    while (folders_cpy != NULL) {
-        folder_t *folder_cpy = folders_cpy->data;
-        printf("%s:\n", folder_cpy->path);
-        list_t *files = folder_cpy->files;
-        while (files != NULL) {
-            printf("%s\n", ((file_t*) files->data)->file->d_name);
-            files = files->next;
-        }
-        printf("\n");
-        folders_cpy = folders_cpy->next;
-    }
-
-
-    printf("%i %i\n", flags, n_folders);
-    // print_folders(folders, n_folders, flags);
+    print_folders(folders, n_folders, flags);
     delete_folders(folders);
     return (0);
 }

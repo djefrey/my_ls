@@ -30,6 +30,8 @@ typedef struct {
     list_t *files;
 } folder_t;
 
+typedef void (*print_folder_t)(list_t *files);
+
 int get_flags(int ac, char *av[]);
 int read_folders(int ac, char *av[], list_t **folders, int flags);
 void print_folders(list_t *folders, int n_folders, int flags);

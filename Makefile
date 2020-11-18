@@ -7,7 +7,8 @@
 
 MAIN	=	main.c
 SRC		=	read_flags.c		\
-			read_folders.c
+			read_folders.c		\
+			print_folders.c
 CFLAGS	+=	-g -W -Wall -I$(INC_DIR)
 MAIN_O	=	$(MAIN:.c=.o)
 SRC_O	=	$(SRC:.c=.o)

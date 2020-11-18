@@ -54,7 +54,6 @@ static int read_content(char *path, list_t **folders, int flags)
                 continue;
             filepath = my_strmerge(path, fileinfo->d_name);
             my_strinsert(&filepath, "/", my_strlen(path));
-            printf("=> (%s)/%s - %s\n", path, fileinfo->d_name, filepath);
             if (flags & FLAG_RECURSIVE && fileinfo->d_type == DT_DIR)
                 n_folders += read_content(filepath, folders, flags);
             add_file_to_list(filepath, fileinfo, &files);
