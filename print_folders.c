@@ -32,7 +32,9 @@ static void print_folder_simple(folder_t *folder)
         file = (file_t*) files->data;
         if (i > 0)
             my_putstr("  ");
+        print_color(file);
         my_putstr(file->name);
+        my_putstr("\e[0m");
         files = files->next;
     }
 }

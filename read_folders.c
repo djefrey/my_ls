@@ -55,7 +55,8 @@ static int get_files(char *path, int flags, list_t **folders, list_t **files)
         if (fileinfo->d_name[0] == '.' && !(flags & FLAG_ALL))
             continue;
         filepath = my_strmerge(path, fileinfo->d_name);
-        if (flags & FLAG_RECURSIVE && fileinfo->d_type == DT_DIR)
+        if (flags & FLAG_RECURSIVE && fileinfo->d_type == DT_DIR
+        && my_strcmp(fileinfo->d_name, ".."))
             rec_folders += read_folder_content(filepath, folders, flags);
         add_file_to_list(filepath, fileinfo, files);
         free(filepath);
