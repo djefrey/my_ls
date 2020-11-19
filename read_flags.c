@@ -13,8 +13,8 @@ static int add_flags(char *av)
 
     while (*av) {
         for (int i = 0; i < NUMBER_FLAGS; i++) {
-            if (*av == FLAGS[i]) {
-                flags += FLAGS_VALUE[i];
+            if (*av == FLAGS_LS[i]) {
+                flags += FLAGS_LS_VALUE[i];
                 break;
             }
         }

@@ -5,7 +5,7 @@
 ** print_fcts
 */
 
-#include <dirent.h>
+#include <unistd.h>
 #include "my.h"
 #include "my_ls.h"
 #include "colors_list.h"

@@ -8,9 +8,11 @@
 LIST_SRC	=	$(wildcard ./my_list/*.c)
 NBR_SRC		=	$(wildcard ./my_nbr/*.c)
 STR_SRC		=	$(wildcard ./my_str/*.c)
+PRINT_SRC	=	$(wildcard ./my_printf/*.c)
 INC_DIR		=	../include/
-CFLAGS		=	-I$(INC_DIR) -W -Wall
-OBJ			=	$(LIST_SRC:.c=.o) $(NBR_SRC:.c=.o) $(STR_SRC:.c=.o)
+INC_PRINTF	=	./my_printf/include/
+CFLAGS		=	-I$(INC_DIR) -I$(INC_PRINTF) -W -Wall
+OBJ			=	$(LIST_SRC:.c=.o) $(NBR_SRC:.c=.o) $(STR_SRC:.c=.o) $(PRINT_SRC:.c=.o)
 NAME		=	libmy.a
 
 all:	$(NAME)

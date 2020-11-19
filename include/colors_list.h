@@ -8,7 +8,7 @@
 #ifndef COLORS_LIST_H_
 #define COLORS_LIST_H_
 
-#include <dirent.h>
+#include <sys/types.h>
 
 #define NUMBER_COLORS 6
 

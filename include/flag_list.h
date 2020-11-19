@@ -12,10 +12,10 @@
 
 #define NUMBER_FLAGS 6
 
-const char FLAGS[] = {'a', 'l', 'R',
+const char FLAGS_LS[] = {'a', 'l', 'R',
                     'd', 'r', 't'};
 
-const int FLAGS_VALUE[] = {FLAG_ALL, FLAG_LIST, FLAG_RECURSIVE,
+const int FLAGS_LS_VALUE[] = {FLAG_ALL, FLAG_LIST, FLAG_RECURSIVE,
                         FLAG_DIR, FLAG_REVERSE, FLAG_TIME};
 
 #endif /* !FLAG_LIST_H_ */
