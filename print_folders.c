@@ -41,18 +41,15 @@ static void print_folder_complete(folder_t *folder)
     list_t *files = folder->files;
     file_t *file;
     struct stat *stat;
-    struct passwd *user;
-    struct group *grp;
 
-    my_printf("total %i\n", -1);
+    print_total_blocks(files);
     for (int i = 0; files != NULL; i++) {
         file = (file_t*) files->data;
         stat = file->statbuf;
-        user = getpwuid(stat->st_uid);
-        grp = getgrgid(stat->st_gid);
         print_type_and_permission(file);
-        my_printf(" %i %s %s %ld ", stat->st_nlink, user->pw_name,
-        grp->gr_name, stat->st_size);
+        my_printf(". %i %s %s %i ", stat->st_nlink,
+        getpwuid(stat->st_uid)->pw_name, getgrgid(stat->st_gid)->gr_name,
+        stat->st_size);
         my_printf("%.12s ", ctime(&(file->statbuf->st_ctim.tv_sec)) + 4);
         print_color(file);
         my_printf("%s\e[0m\n", file->name);
