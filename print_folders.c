@@ -40,7 +40,7 @@ static void print_folder_complete(folder_t *folder)
 {
     list_t *files = folder->files;
     file_t *file;
-    struct *stat;
+    struct stat *stat;
     struct passwd *user;
     struct group *grp;
 
