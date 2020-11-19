@@ -40,20 +40,22 @@ static void print_folder_complete(folder_t *folder)
 {
     list_t *files = folder->files;
     file_t *file;
+    struct *stat;
     struct passwd *user;
     struct group *grp;
 
     my_printf("total %i\n", -1);
     for (int i = 0; files != NULL; i++) {
         file = (file_t*) files->data;
-        user = getpwuid(file->statbuf->st_uid);
-        grp = getgrgid(file->statbuf->st_gid);
+        stat = file->statbuf;
+        user = getpwuid(stat->st_uid);
+        grp = getgrgid(stat->st_gid);
         print_type_and_permission(file);
-        my_printf(" %i %s %s %ld ", file->statbuf->st_nlink, user->pw_name,
-        grp->gr_name, file->statbuf->st_size);
+        my_printf(" %i %s %s %ld ", stat->st_nlink, user->pw_name,
+        grp->gr_name, stat->st_size);
         my_printf("%.12s ", ctime(&(file->statbuf->st_ctim.tv_sec)) + 4);
         print_color(file);
-        printf("%s\e[0m\n", file->name);
+        my_printf("%s\e[0m\n", file->name);
         files = files->next;
     }
 }
@@ -91,8 +93,7 @@ void print_folders(list_t *folders, int n_folders, int flags)
     } else {
         for (int i = 0; folders != NULL; i++, folders = folders->next) {
             folder = (folder_t*) folders->data;
-            my_putstr(folder->path);
-            my_putstr(":\n");
+            my_printf("%s:\n", folder->path);
             (*print_folder)(folder);
             if (i < n_folders - 1)
                 my_putchar('\n');
