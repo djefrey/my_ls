@@ -50,7 +50,7 @@ static void print_folder_complete(folder_t *folder)
         my_printf(". %i %s %s %i ", stat->st_nlink,
         getpwuid(stat->st_uid)->pw_name, getgrgid(stat->st_gid)->gr_name,
         stat->st_size);
-        my_printf("%.12s ", ctime(&(file->statbuf->st_ctim.tv_sec)) + 4);
+        my_printf("%.12s ", ctime(&(file->statbuf->st_mtim.tv_sec)) + 4);
         print_color(file);
         my_printf("%s\e[0m\n", file->name);
         files = files->next;
@@ -66,9 +66,10 @@ static void print_folder_simple(folder_t *folder)
         file = (file_t*) files->data;
         print_color(file);
         my_putstr(file->name);
-        my_putstr("\e[0m\n");
+        my_putstr("\e[0m  ");
         files = files->next;
     }
+    my_putchar('\n');
 }
 
 static print_folder_t get_print_fct(int flags)

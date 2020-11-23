@@ -14,9 +14,8 @@ list_t *get_smallest(list_t *cursor, int (*cmp)())
     list_t *smallest = cursor;
 
     while (cursor != NULL) {
-        if ((*cmp)(smallest->data, cursor->data) > 0) {
+        if (smallest != cursor && (*cmp)(smallest->data, cursor->data) > 0)
             smallest = cursor;
-        }
         cursor = cursor->next;
     }
     return (smallest);

@@ -20,6 +20,8 @@
 #define FLAG_REVERSE 16
 #define FLAG_TIME 32
 
+#define SORT_MASK 46
+
 typedef struct {
     char *name;
     unsigned char type;
@@ -36,6 +38,7 @@ typedef void (*print_folder_t)(folder_t *folder);
 int get_flags(int ac, char *av[]);
 int read_folders(int ac, char *av[], list_t **folders, int flags);
 int read_folder_content(char *path, list_t **folders, int flags);
+void sort_files(list_t *folders, int flags);
 void print_folders(list_t *folders, int n_folders, int flags);
 
 #endif /* !MY_LS_H_ */
