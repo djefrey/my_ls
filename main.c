@@ -9,38 +9,6 @@
 #include "my_ls.h"
 #include "my_list.h"
 
-static void delete_files(list_t *files)
-{
-    list_t *next;
-    file_t *file;
-
-    while (files != NULL) {
-        next = files->next;
-        file = (file_t*) files->data;
-        free(file->name);
-        free(file->statbuf);
-        free(file);
-        free(files);
-        files = next;
-    }
-}
-
-static void delete_folders(list_t *folders)
-{
-    list_t *next;
-    folder_t *folder;
-
-    while (folders != NULL) {
-        next = folders->next;
-        folder = (folder_t*) folders->data;
-        delete_files(folder->files);
-        free(folder->path);
-        free(folder);
-        free(folders);
-        folders = next;
-    }
-}
-
 int main(int ac, char *av[])
 {
     int flags = get_flags(ac, av);

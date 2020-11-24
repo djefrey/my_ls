@@ -9,39 +9,23 @@
 #include <sys/stat.h>
 #include <dirent.h>
 #include <stdlib.h>
+#include <fcntl.h>
 #include <stdio.h>
 #include "my.h"
 #include "my_list.h"
 #include "my_ls.h"
 
-static void add_file_to_list(char *filepath, struct dirent *fileinfo,
-list_t **list)
+static int get_file(char *path, list_t **folders, list_t **files)
 {
-    file_t *file = malloc(sizeof(file_t));
-    struct stat *statbuf = malloc(sizeof(struct stat));
+    int fd;
 
-    if (file == NULL) {
-        free(file);
-        return;
-    }
-    stat(filepath, statbuf);
-    file->name = my_strdup(fileinfo->d_name);
-    file->type = fileinfo->d_type;
-    file->statbuf = statbuf;
-    create_list(list, file);
-}
-
-static void add_folder_to_list(char *path, list_t *files, list_t **folders)
-{
-    folder_t *folder = malloc(sizeof(list_t));
-    int pathlen = my_strlen(path);
-
-    if (folder == NULL)
-        return;
-    folder->path = my_strdup(path);
-    folder->path[pathlen - 1] = 0;
-    folder->files = files;
-    create_list(folders, folder);
+    path[my_strlen(path) - 1] = 0;
+    fd = open(path, O_RDONLY);
+    if (fd == -1)
+        return (0);
+    add_file_to_list(path, NULL, files);
+    close(fd);
+    return (1);
 }
 
 static int get_files(char *path, int flags, list_t **folders, list_t **files)
@@ -63,20 +47,22 @@ static int get_files(char *path, int flags, list_t **folders, list_t **files)
             free(filepath);
         }
         closedir(dir);
-    }
-    return (rec_folders);
+        return (rec_folders);
+    } else if (get_file(path, folders, files))
+        return (-1);
+    return (-2);
 }
 
 int read_folder_content(char *path, list_t **folders, int flags)
 {
     int n_folders = 1;
-    int tmp = 0;
+    int ret_value = 0;
     list_t *files = NULL;
     char *newpath = my_strmerge(path, "/");
 
-    if ((tmp = get_files(newpath, flags, folders, &files)) >= 0) {
-        add_folder_to_list(newpath, files, folders);
-        n_folders += tmp;
+    if ((ret_value = get_files(newpath, flags, folders, &files)) >= -1) {
+        add_folder_to_list(newpath, files, folders, ret_value == - 1 ? 1 : 0);
+        n_folders += ret_value == -1 ? 0 : ret_value;
     } else
         perror(path);
     free(newpath);

@@ -10,7 +10,8 @@ SRC		=	read_flags.c		\
 			read_folders.c		\
 			print_folders.c		\
 			print_fcts.c		\
-			sort_files.c
+			sort_files.c		\
+			lists_managment.c
 CFLAGS	+=	-g -W -Wall -I$(INC_DIR)
 MAIN_O	=	$(MAIN:.c=.o)
 SRC_O	=	$(SRC:.c=.o)
