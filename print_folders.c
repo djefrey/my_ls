@@ -13,28 +13,6 @@
 #include "my.h"
 #include "my_ls.h"
 #include "my_list.h"
-#include "type_list.h"
-
-static void print_type_and_permission(file_t *file)
-{
-    int mode = file->statbuf->st_mode;
-
-    for (int i = 0; i < NUMBER_TYPE; i++) {
-        if ((mode & S_IFMT) == TYPE_LS[i]) {
-            my_putchar(TYPE_LS_VALUE[i]);
-            break;
-        }
-    }
-    my_putchar((mode & S_IRUSR) ? 'r' : '-');
-    my_putchar((mode & S_IWUSR) ? 'w' : '-');
-    my_putchar((mode & S_IXUSR) ? 'x' : '-');
-    my_putchar((mode & S_IRGRP) ? 'r' : '-');
-    my_putchar((mode & S_IWGRP) ? 'w' : '-');
-    my_putchar((mode & S_IXGRP) ? 'x' : '-');
-    my_putchar((mode & S_IROTH) ? 'r' : '-');
-    my_putchar((mode & S_IWOTH) ? 'w' : '-');
-    my_putchar((mode & S_IXOTH) ? 'x' : '-');
-}
 
 static void print_folder_complete(folder_t *folder)
 {
@@ -42,7 +20,8 @@ static void print_folder_complete(folder_t *folder)
     file_t *file;
     struct stat *stat;
 
-    print_total_blocks(files);
+    if (!folder->is_file)
+        print_total_blocks(files);
     for (int i = 0; files != NULL; i++) {
         file = (file_t*) files->data;
         stat = file->statbuf;

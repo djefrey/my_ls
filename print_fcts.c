@@ -9,7 +9,28 @@
 #include "my.h"
 #include "my_ls.h"
 #include "colors_list.h"
+#include "type_list.h"
 
+void print_type_and_permission(file_t *file)
+{
+    int mode = file->statbuf->st_mode;
+
+    for (int i = 0; i < NUMBER_TYPE; i++) {
+        if ((mode & S_IFMT) == TYPE_LS[i]) {
+            my_putchar(TYPE_LS_VALUE[i]);
+            break;
+        }
+    }
+    my_putchar((mode & S_IRUSR) ? 'r' : '-');
+    my_putchar((mode & S_IWUSR) ? 'w' : '-');
+    my_putchar((mode & S_IXUSR) ? 'x' : '-');
+    my_putchar((mode & S_IRGRP) ? 'r' : '-');
+    my_putchar((mode & S_IWGRP) ? 'w' : '-');
+    my_putchar((mode & S_IXGRP) ? 'x' : '-');
+    my_putchar((mode & S_IROTH) ? 'r' : '-');
+    my_putchar((mode & S_IWOTH) ? 'w' : '-');
+    my_putchar((mode & S_IXOTH) ? 'x' : '-');
+}
 void print_total_blocks(list_t *files)
 {
     file_t *file;

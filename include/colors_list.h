@@ -10,7 +10,7 @@
 
 #include <sys/types.h>
 
-#define NUMBER_COLORS 6
+#define NUMBER_COLORS 4
 
 #define EXEC_COLOR "\e[1m\e[32m"
 #define ARCHIVE_COLOR "\e[1m\e[31m"
