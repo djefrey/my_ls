@@ -15,7 +15,7 @@
 #include "my_ls.h"
 
 static void add_file_to_list(char *filepath, struct dirent *fileinfo,
-list_t **files)
+list_t **list)
 {
     file_t *file = malloc(sizeof(file_t));
     struct stat *statbuf = malloc(sizeof(struct stat));
@@ -28,7 +28,7 @@ list_t **files)
     file->name = my_strdup(fileinfo->d_name);
     file->type = fileinfo->d_type;
     file->statbuf = statbuf;
-    create_list(files, file);
+    create_list(list, file);
 }
 
 static void add_folder_to_list(char *path, list_t *files, list_t **folders)
@@ -51,17 +51,19 @@ static int get_files(char *path, int flags, list_t **folders, list_t **files)
     struct dirent *fileinfo;
     char *filepath;
 
-    while ((fileinfo = readdir(dir))) {
-        if (fileinfo->d_name[0] == '.' && !(flags & FLAG_ALL))
-            continue;
-        filepath = my_strmerge(path, fileinfo->d_name);
-        if (flags & FLAG_RECURSIVE && fileinfo->d_type == DT_DIR
-        && my_strcmp(fileinfo->d_name, ".."))
-            rec_folders += read_folder_content(filepath, folders, flags);
-        add_file_to_list(filepath, fileinfo, files);
-        free(filepath);
+    if (dir != NULL) {
+        while ((fileinfo = readdir(dir))) {
+            if (fileinfo->d_name[0] == '.' && !(flags & FLAG_ALL))
+                continue;
+            filepath = my_strmerge(path, fileinfo->d_name);
+            if (flags & FLAG_RECURSIVE && fileinfo->d_type == DT_DIR
+            && my_strcmp(fileinfo->d_name, ".."))
+                rec_folders += read_folder_content(filepath, folders, flags);
+            add_file_to_list(filepath, fileinfo, files);
+            free(filepath);
+        }
+        closedir(dir);
     }
-    closedir(dir);
     return (rec_folders);
 }
 
