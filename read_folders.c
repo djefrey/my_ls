@@ -16,10 +16,12 @@
 #include "my_list.h"
 #include "my_ls.h"
 
-static int get_file(char *path, list_t **files)
+static int get_file(char *path, list_t **files, DIR *dir)
 {
     int fd;
 
+    if (dir != NULL)
+        closedir(dir);
     path[my_strlen(path) - 1] = 0;
     fd = open(path, O_RDONLY);
     if (fd == -1)
@@ -36,7 +38,7 @@ static int get_files(char *path, int flags, list_t **folders, list_t **files)
     struct dirent *fileinfo;
     char *filepath;
 
-    if (dir != NULL) {
+    if (dir != NULL && !(flags & FLAG_DIR)) {
         while ((fileinfo = readdir(dir))) {
             if (fileinfo->d_name[0] == '.' && !(flags & FLAG_ALL))
                 continue;
@@ -49,7 +51,7 @@ static int get_files(char *path, int flags, list_t **folders, list_t **files)
         }
         closedir(dir);
         return (rec_folders);
-    } else if (get_file(path, files))
+    } else if (get_file(path, files, dir))
         return (-1);
     return (-2);
 }
