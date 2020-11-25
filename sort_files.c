@@ -22,10 +22,11 @@ static int name_chr_cmp(file_t *f1, file_t *f2)
 
 static int time_cmp(file_t *f1, file_t *f2)
 {
-    long time1 = (f1->statbuf->st_mtim).tv_nsec;
-    long time2 = (f2->statbuf->st_mtim).tv_nsec;
+    time_t time1 = (f1->statbuf->st_mtim).tv_sec;
+    time_t time2 = (f2->statbuf->st_mtim).tv_sec;
+    double diff = difftime(time2, time1);
 
-    if (time2 - time1 > 0)
+    if (diff > 0)
         return (1);
     else
         return (0);
