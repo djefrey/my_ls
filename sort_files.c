@@ -26,10 +26,7 @@ static int time_cmp(file_t *f1, file_t *f2)
     time_t time2 = (f2->statbuf->st_mtim).tv_sec;
     double diff = difftime(time2, time1);
 
-    if (diff > 0)
-        return (1);
-    else
-        return (0);
+    return (diff > 0);
 }
 
 void sort_files(list_t *folders, int flags)
