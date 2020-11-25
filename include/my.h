@@ -57,4 +57,6 @@ char **my_str_to_word_array(char const *str);
 void my_intswap(int *a, int *b);
 void my_strswap(char **a, char **b);
 
+int my_printf(char *str, ...);
+
 #endif /* !MY_H_ */

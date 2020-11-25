@@ -31,6 +31,7 @@ void print_type_and_permission(file_t *file)
     my_putchar((mode & S_IWOTH) ? 'w' : '-');
     my_putchar((mode & S_IXOTH) ? 'x' : '-');
 }
+
 void print_total_blocks(list_t *files)
 {
     file_t *file;
@@ -46,7 +47,6 @@ void print_total_blocks(list_t *files)
 
 void print_color(file_t *file)
 {
-    int len = my_strlen(file->name);
     int mode = file->statbuf->st_mode;
 
     for (int i = 0; i < NUMBER_COLORS; i++) {

@@ -11,11 +11,12 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <stdio.h>
+#include <unistd.h>
 #include "my.h"
 #include "my_list.h"
 #include "my_ls.h"
 
-static int get_file(char *path, list_t **folders, list_t **files)
+static int get_file(char *path, list_t **files)
 {
     int fd;
 
@@ -48,7 +49,7 @@ static int get_files(char *path, int flags, list_t **folders, list_t **files)
         }
         closedir(dir);
         return (rec_folders);
-    } else if (get_file(path, folders, files))
+    } else if (get_file(path, files))
         return (-1);
     return (-2);
 }
