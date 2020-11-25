@@ -70,11 +70,11 @@ void print_folders(list_t *folders, int n_folders, int flags)
     } else {
         for (int i = 0; folders != NULL; i++, folders = folders->next) {
             folder = (folder_t*) folders->data;
+            if (i > 0 && !folder->is_file)
+                my_putchar('\n');
             if (!folder->is_file)
                 my_printf("%s:\n", folder->path);
             (*print_folder)(folder);
-            if (i < n_folders - 1)
-                my_putchar('\n');
         }
     }
 }
