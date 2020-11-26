@@ -24,6 +24,8 @@ void print_type_and_permission(file_t *file)
     my_putchar((mode & S_IRUSR) ? 'r' : '-');
     my_putchar((mode & S_IWUSR) ? 'w' : '-');
     my_putchar((mode & S_IXUSR) ? 'x' : '-');
+    if ((mode & S_ISVTX))
+        my_putchar('s');
     my_putchar((mode & S_IRGRP) ? 'r' : '-');
     my_putchar((mode & S_IWGRP) ? 'w' : '-');
     my_putchar((mode & S_IXGRP) ? 'x' : '-');
