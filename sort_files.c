@@ -24,7 +24,7 @@ static int time_cmp(file_t *f1, file_t *f2)
 {
     time_t time1 = (f1->statbuf->st_mtim).tv_sec;
     time_t time2 = (f2->statbuf->st_mtim).tv_sec;
-    double diff = difftime(time2, time1);
+    double diff = time2 - time1;
 
     return (diff > 0);
 }

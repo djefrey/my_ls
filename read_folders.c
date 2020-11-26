@@ -18,16 +18,14 @@
 
 static int get_file(char *path, list_t **files, DIR *dir)
 {
-    int fd;
+    struct stat statbuf;
 
     if (dir != NULL)
         closedir(dir);
     path[my_strlen(path) - 1] = 0;
-    fd = open(path, O_RDONLY);
-    if (fd == -1)
+    if (stat(path, &statbuf) == -1)
         return (0);
     add_file_to_list(path, NULL, files);
-    close(fd);
     return (1);
 }
 

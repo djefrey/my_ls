@@ -64,7 +64,7 @@ void print_folders(list_t *folders, int n_folders, int flags)
     print_folder_t print_folder = get_print_fct(flags);
     folder_t *folder;
 
-    if (n_folders == 1) {
+    if (n_folders == 1 && folders != NULL) {
         folder = (folder_t*) folders->data;
         (*print_folder)(folder);
     } else {
