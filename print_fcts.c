@@ -11,6 +11,26 @@
 #include "colors_list.h"
 #include "type_list.h"
 
+static void print_sticky_bit(int mode, char id)
+{
+    if (id == 0) {
+        if ((mode & S_ISUID))
+            my_putchar('s');
+        else
+            my_putchar((mode & S_IXUSR) ? 'x' : '-');
+    } else if (id == 1) {
+        if ((mode & S_ISGID))
+            my_putchar('s');
+        else
+            my_putchar((mode & S_IXGRP) ? 'x' : '-');
+    } else {
+        if ((mode & S_ISVTX))
+            my_putchar('t');
+        else
+            my_putchar((mode & S_IXOTH) ? 'x' : '-');
+    }
+}
+
 void print_type_and_permission(file_t *file)
 {
     int mode = file->statbuf->st_mode;
@@ -23,16 +43,13 @@ void print_type_and_permission(file_t *file)
     }
     my_putchar((mode & S_IRUSR) ? 'r' : '-');
     my_putchar((mode & S_IWUSR) ? 'w' : '-');
-    my_putchar((mode & S_IXUSR) ? 'x' : '-');
+    print_sticky_bit(mode, 0);
     my_putchar((mode & S_IRGRP) ? 'r' : '-');
     my_putchar((mode & S_IWGRP) ? 'w' : '-');
-    my_putchar((mode & S_IXGRP) ? 'x' : '-');
+    print_sticky_bit(mode, 1);
     my_putchar((mode & S_IROTH) ? 'r' : '-');
     my_putchar((mode & S_IWOTH) ? 'w' : '-');
-    if ((mode & S_ISVTX))
-        my_putchar('t');
-    else
-        my_putchar((mode & S_IXOTH) ? 'x' : '-');
+    print_sticky_bit(mode, 2);
 }
 
 void print_total_blocks(list_t *files)
