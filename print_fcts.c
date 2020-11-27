@@ -6,10 +6,21 @@
 */
 
 #include <unistd.h>
+#include <sys/types.h>
 #include "my.h"
 #include "my_ls.h"
 #include "colors_list.h"
 #include "type_list.h"
+
+void print_size_or_minor_major(struct stat *stat)
+{
+    int mode = stat->st_mode;
+
+    if ((mode & S_IFCHR)) {
+        my_printf("%i, %i ", major(stat->st_rdev), minor(stat->st_rdev));
+    } else
+        my_printf("%i ", stat->st_size);
+}
 
 static void print_sticky_bit(int mode, char id)
 {

@@ -22,6 +22,9 @@
 
 #define SORT_MASK 46
 
+#define major(dev) ((int)(((unsigned int) (dev) >> 8) & 0xff))
+#define minor(dev) ((int)((dev) & 0xff))
+
 typedef struct {
     char *name;
     unsigned char type;

@@ -26,9 +26,9 @@ static void print_folder_complete(folder_t *folder)
         file = (file_t*) files->data;
         stat = file->statbuf;
         print_type_and_permission(file);
-        my_printf(" %i %s %s %i ", stat->st_nlink,
-        getpwuid(stat->st_uid)->pw_name, getgrgid(stat->st_gid)->gr_name,
-        stat->st_size);
+        my_printf(" %i %s %s ", stat->st_nlink,
+        getpwuid(stat->st_uid)->pw_name, getgrgid(stat->st_gid)->gr_name);
+        print_size_or_minor_major(stat);
         my_printf("%.12s ", ctime(&(file->statbuf->st_mtim.tv_sec)) + 4);
         print_color(file);
         my_printf("%s\e[0m\n", file->name);

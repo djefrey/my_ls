@@ -60,12 +60,19 @@ int read_folder_content(char *path, list_t **folders, int flags)
     int ret_value = 0;
     list_t *files = NULL;
     char *newpath = my_strmerge(path, "/");
+    char *error_part;
+    char *error;
 
     if ((ret_value = get_files(newpath, flags, folders, &files)) >= -1) {
         add_folder_to_list(newpath, files, folders, ret_value == - 1 ? 1 : 0);
         n_folders += ret_value == -1 ? 0 : ret_value;
-    } else
-        perror(path);
+    } else {
+        error_part = my_strmerge("./my_ls: cannot access '", path);
+        error = my_strmerge(error_part, "'");
+        perror(error);
+        free(error);
+        free(error_part);
+    }
     free(newpath);
     return (n_folders);
 }

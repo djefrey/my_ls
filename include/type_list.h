@@ -11,7 +11,7 @@
 #define NUMBER_TYPE 7
 
 const int TYPE_LS[] = {S_IFREG, S_IFDIR, S_IFLNK,
-                    S_IFIFO, S_IFSOCK, S_IFBLK, S_IFBLK};
+                    S_IFIFO, S_IFSOCK, S_IFBLK, S_IFCHR};
 
 const char TYPE_LS_VALUE[] = {'-', 'd', 'l',
                     'p', 's', 'b', 'c'};
