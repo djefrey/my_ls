@@ -17,6 +17,8 @@ int main(int ac, char *av[])
 
     if (n_folders == 0)
         n_folders = read_folder_content(".", &folders, flags);
+    if (folders == NULL)
+        return (84);
     sort_files(folders, flags);
     print_folders(folders, n_folders, flags);
     delete_folders(folders);
