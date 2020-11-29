@@ -12,9 +12,25 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <errno.h>
 #include "my.h"
 #include "my_list.h"
 #include "my_ls.h"
+
+static void print_error(char *path)
+{
+    char *error_part;
+    char *error;
+
+    if (errno == EACCES)
+        error_part = my_strmerge("./my_ls: cannot open directory '", path);
+    else
+        error_part = my_strmerge("./my_ls: cannot access '", path);
+    error = my_strmerge(error_part, "'");
+    perror(error);
+    free(error);
+    free(error_part);
+}
 
 static int get_file(char *path, list_t **files, DIR *dir)
 {
@@ -49,7 +65,7 @@ static int get_files(char *path, int flags, list_t **folders, list_t **files)
         }
         closedir(dir);
         return (rec_folders);
-    } else if (get_file(path, files, dir))
+    } else if (errno != EACCES && get_file(path, files, dir))
         return (-1);
     return (-2);
 }
@@ -60,19 +76,12 @@ int read_folder_content(char *path, list_t **folders, int flags)
     int ret_value = 0;
     list_t *files = NULL;
     char *newpath = my_strmerge(path, "/");
-    char *error_part;
-    char *error;
 
     if ((ret_value = get_files(newpath, flags, folders, &files)) >= -1) {
         add_folder_to_list(newpath, files, folders, ret_value == - 1 ? 1 : 0);
         n_folders += ret_value == -1 ? 0 : ret_value;
-    } else {
-        error_part = my_strmerge("./my_ls: cannot access '", path);
-        error = my_strmerge(error_part, "'");
-        perror(error);
-        free(error);
-        free(error_part);
-    }
+    } else
+        print_error(path);
     free(newpath);
     return (n_folders);
 }
